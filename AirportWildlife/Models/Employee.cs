@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace AirportWildlife.Models
 {
-    public class Species
+    public class Employee
     {
         [Key]
-        public int SpeciesId { get; set; }
+        public int EmployeeId { get; set; }
         [Required]
-        public string Name { get; set; }
+        public string Initials { get; set; }
         public virtual ICollection<Interaction> Interactions { get; set; }
     }
 }

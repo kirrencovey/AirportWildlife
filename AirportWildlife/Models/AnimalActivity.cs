@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace AirportWildlife.Models
 {
-    public class Species
+    public class AnimalActivity
     {
         [Key]
-        public int SpeciesId { get; set; }
+        public int AnimalActivityId { get; set; }
         [Required]
         public string Name { get; set; }
         public virtual ICollection<Interaction> Interactions { get; set; }

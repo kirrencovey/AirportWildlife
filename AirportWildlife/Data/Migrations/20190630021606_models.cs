@@ -90,7 +90,7 @@ namespace AirportWildlife.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Interactoins",
+                name: "Interactions",
                 columns: table => new
                 {
                     InteractionId = table.Column<int>(nullable: false)
@@ -109,39 +109,39 @@ namespace AirportWildlife.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Interactoins", x => x.InteractionId);
+                    table.PrimaryKey("PK_Interactions", x => x.InteractionId);
                     table.ForeignKey(
-                        name: "FK_Interactoins_AnimalActivities_AnimalActivityId",
+                        name: "FK_Interactions_AnimalActivities_AnimalActivityId",
                         column: x => x.AnimalActivityId,
                         principalTable: "AnimalActivities",
                         principalColumn: "AnimalActivityId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Interactoins_AspNetUsers_ApplicationUserId",
+                        name: "FK_Interactions_AspNetUsers_ApplicationUserId",
                         column: x => x.ApplicationUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Interactoins_ControlMethods_ControlMethodId",
+                        name: "FK_Interactions_ControlMethods_ControlMethodId",
                         column: x => x.ControlMethodId,
                         principalTable: "ControlMethods",
                         principalColumn: "ControlMethodId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Interactoins_Employees_EmployeeId",
+                        name: "FK_Interactions_Employees_EmployeeId",
                         column: x => x.EmployeeId,
                         principalTable: "Employees",
                         principalColumn: "EmployeeId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Interactoins_Habitats_HabitatId",
+                        name: "FK_Interactions_Habitats_HabitatId",
                         column: x => x.HabitatId,
                         principalTable: "Habitats",
                         principalColumn: "HabitatId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Interactoins_Species_SpeciesId",
+                        name: "FK_Interactions_Species_SpeciesId",
                         column: x => x.SpeciesId,
                         principalTable: "Species",
                         principalColumn: "SpeciesId",
@@ -149,40 +149,40 @@ namespace AirportWildlife.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Interactoins_AnimalActivityId",
-                table: "Interactoins",
+                name: "IX_Interactions_AnimalActivityId",
+                table: "Interactions",
                 column: "AnimalActivityId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Interactoins_ApplicationUserId",
-                table: "Interactoins",
+                name: "IX_Interactions_ApplicationUserId",
+                table: "Interactions",
                 column: "ApplicationUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Interactoins_ControlMethodId",
-                table: "Interactoins",
+                name: "IX_Interactions_ControlMethodId",
+                table: "Interactions",
                 column: "ControlMethodId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Interactoins_EmployeeId",
-                table: "Interactoins",
+                name: "IX_Interactions_EmployeeId",
+                table: "Interactions",
                 column: "EmployeeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Interactoins_HabitatId",
-                table: "Interactoins",
+                name: "IX_Interactions_HabitatId",
+                table: "Interactions",
                 column: "HabitatId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Interactoins_SpeciesId",
-                table: "Interactoins",
+                name: "IX_Interactions_SpeciesId",
+                table: "Interactions",
                 column: "SpeciesId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Interactoins");
+                name: "Interactions");
 
             migrationBuilder.DropTable(
                 name: "AnimalActivities");

@@ -28,7 +28,11 @@ namespace AirportWildlife.Data.Migrations
                     b.Property<string>("Name")
                         .IsRequired();
 
+                    b.Property<string>("UserId");
+
                     b.HasKey("AnimalActivityId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("AnimalActivities");
                 });
@@ -42,7 +46,11 @@ namespace AirportWildlife.Data.Migrations
                     b.Property<string>("Name")
                         .IsRequired();
 
+                    b.Property<string>("UserId");
+
                     b.HasKey("ControlMethodId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("ControlMethods");
                 });
@@ -56,7 +64,11 @@ namespace AirportWildlife.Data.Migrations
                     b.Property<string>("Initials")
                         .IsRequired();
 
+                    b.Property<string>("UserId");
+
                     b.HasKey("EmployeeId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Employees");
                 });
@@ -70,7 +82,11 @@ namespace AirportWildlife.Data.Migrations
                     b.Property<string>("Name")
                         .IsRequired();
 
+                    b.Property<string>("UserId");
+
                     b.HasKey("HabitatId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Habitats");
                 });
@@ -82,8 +98,6 @@ namespace AirportWildlife.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("AnimalActivityId");
-
-                    b.Property<string>("ApplicationUserId");
 
                     b.Property<string>("Comments");
 
@@ -104,11 +118,11 @@ namespace AirportWildlife.Data.Migrations
 
                     b.Property<int>("SpeciesId");
 
+                    b.Property<string>("UserId");
+
                     b.HasKey("InteractionId");
 
                     b.HasIndex("AnimalActivityId");
-
-                    b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("ControlMethodId");
 
@@ -118,7 +132,9 @@ namespace AirportWildlife.Data.Migrations
 
                     b.HasIndex("SpeciesId");
 
-                    b.ToTable("Interactoins");
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Interactions");
                 });
 
             modelBuilder.Entity("AirportWildlife.Models.Species", b =>
@@ -130,7 +146,11 @@ namespace AirportWildlife.Data.Migrations
                     b.Property<string>("Name")
                         .IsRequired();
 
+                    b.Property<string>("UserId");
+
                     b.HasKey("SpeciesId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Species");
                 });
@@ -318,16 +338,40 @@ namespace AirportWildlife.Data.Migrations
                     b.HasDiscriminator().HasValue("ApplicationUser");
                 });
 
+            modelBuilder.Entity("AirportWildlife.Models.AnimalActivity", b =>
+                {
+                    b.HasOne("AirportWildlife.Models.ApplicationUser", "User")
+                        .WithMany("AnimalActivities")
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("AirportWildlife.Models.ControlMethod", b =>
+                {
+                    b.HasOne("AirportWildlife.Models.ApplicationUser", "User")
+                        .WithMany("ControlMethods")
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("AirportWildlife.Models.Employee", b =>
+                {
+                    b.HasOne("AirportWildlife.Models.ApplicationUser", "User")
+                        .WithMany("Employees")
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("AirportWildlife.Models.Habitat", b =>
+                {
+                    b.HasOne("AirportWildlife.Models.ApplicationUser", "User")
+                        .WithMany("Habitats")
+                        .HasForeignKey("UserId");
+                });
+
             modelBuilder.Entity("AirportWildlife.Models.Interaction", b =>
                 {
                     b.HasOne("AirportWildlife.Models.AnimalActivity", "AnimalActivity")
                         .WithMany("Interactions")
                         .HasForeignKey("AnimalActivityId")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("AirportWildlife.Models.ApplicationUser")
-                        .WithMany("Interactions")
-                        .HasForeignKey("ApplicationUserId");
 
                     b.HasOne("AirportWildlife.Models.ControlMethod", "ControlMethod")
                         .WithMany("Interactions")
@@ -348,6 +392,17 @@ namespace AirportWildlife.Data.Migrations
                         .WithMany("Interactions")
                         .HasForeignKey("SpeciesId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("AirportWildlife.Models.ApplicationUser", "User")
+                        .WithMany("Interactions")
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("AirportWildlife.Models.Species", b =>
+                {
+                    b.HasOne("AirportWildlife.Models.ApplicationUser", "User")
+                        .WithMany("Species")
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

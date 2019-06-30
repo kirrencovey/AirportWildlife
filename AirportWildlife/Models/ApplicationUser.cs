@@ -16,6 +16,11 @@ namespace AirportWildlife.Models
         [Display(Name = "Airport")]
         public string Airport { get; set; }
 
+        public virtual ICollection<AnimalActivity> AnimalActivities { get; set; }
+        public virtual ICollection<ControlMethod> ControlMethods { get; set; }
+        public virtual ICollection<Employee> Employees { get; set; }
+        public virtual ICollection<Habitat> Habitats { get; set; }
         public virtual ICollection<Interaction> Interactions { get; set; }
+        public virtual ICollection<Species> Species { get; set; }
     }
 }

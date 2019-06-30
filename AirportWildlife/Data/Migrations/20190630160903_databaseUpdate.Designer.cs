@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AirportWildlife.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190630021924_database")]
-    partial class database
+    [Migration("20190630160903_databaseUpdate")]
+    partial class databaseUpdate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

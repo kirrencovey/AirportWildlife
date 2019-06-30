@@ -18,7 +18,7 @@ namespace AirportWildlife.Data
         public DbSet<ControlMethod> ControlMethods { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Habitat> Habitats { get; set; }
-        public DbSet<Interaction> Interactoins { get; set; }
+        public DbSet<Interaction> Interactions { get; set; }
         public DbSet<Species> Species { get; set; }
     }
 }

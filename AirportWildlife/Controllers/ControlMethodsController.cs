@@ -7,45 +7,34 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AirportWildlife.Data;
 using AirportWildlife.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AirportWildlife.Controllers
 {
     public class ControlMethodsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public ControlMethodsController(ApplicationDbContext context)
+        public ControlMethodsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
+        private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
         // GET: ControlMethods
+        [Authorize]
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.ControlMethods.Include(c => c.User);
+            var user = await GetCurrentUserAsync();
+            var applicationDbContext = _context.ControlMethods.Include(c => c.User).Where(a => a.UserId == user.Id);
             return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: ControlMethods/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var controlMethod = await _context.ControlMethods
-                .Include(c => c.User)
-                .FirstOrDefaultAsync(m => m.ControlMethodId == id);
-            if (controlMethod == null)
-            {
-                return NotFound();
-            }
-
-            return View(controlMethod);
-        }
-
         // GET: ControlMethods/Create
+        [Authorize]
         public IActionResult Create()
         {
             ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
@@ -57,19 +46,24 @@ namespace AirportWildlife.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ControlMethodId,Name,UserId")] ControlMethod controlMethod)
+        public async Task<IActionResult> Create([Bind("ControlMethodId,Name")] ControlMethod controlMethod)
         {
+            var user = await GetCurrentUserAsync();
+
             if (ModelState.IsValid)
             {
+                controlMethod.User = user;
+                controlMethod.UserId = user.Id;
                 _context.Add(controlMethod);
+
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", controlMethod.UserId);
             return View(controlMethod);
         }
 
         // GET: ControlMethods/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -123,6 +117,7 @@ namespace AirportWildlife.Controllers
         }
 
         // GET: ControlMethods/Delete/5
+        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

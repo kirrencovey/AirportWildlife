@@ -1,0 +1,95 @@
+﻿@model IEnumerable<AirportWildlife.Models.Interaction>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Location)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SpeciesCount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NumberTaken)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Comments)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Species)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AnimalActivity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Habitat)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ControlMethod)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Employee)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.User)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Location)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SpeciesCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumberTaken)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Comments)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Species.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AnimalActivity.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Habitat.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ControlMethod.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Employee.Initials)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.Id)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.InteractionId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.InteractionId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.InteractionId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

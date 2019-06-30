@@ -13,7 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using AirportWildlife.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Capstone.Models;
+using AirportWildlife.Models;
 
 namespace AirportWildlife
 {

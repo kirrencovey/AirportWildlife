@@ -13,5 +13,7 @@ namespace AirportWildlife.Models
         [Required]
         public string Initials { get; set; }
         public virtual ICollection<Interaction> Interactions { get; set; }
+        public ApplicationUser User { get; set; }
+        public string UserId { get; set; }
     }
 }

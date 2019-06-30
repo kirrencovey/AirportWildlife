@@ -120,7 +120,7 @@ namespace AirportWildlife.Data.Migrations
 
                     b.HasIndex("SpeciesId");
 
-                    b.ToTable("Interactoins");
+                    b.ToTable("Interactions");
                 });
 
             modelBuilder.Entity("AirportWildlife.Models.Species", b =>

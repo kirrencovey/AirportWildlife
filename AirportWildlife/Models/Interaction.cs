@@ -39,5 +39,7 @@ namespace AirportWildlife.Models
         public int EmployeeId { get; set; }
         [Required]
         public Employee Employee { get; set; }
+        public ApplicationUser User { get; set; }
+        public string UserId { get; set; }
     }
 }

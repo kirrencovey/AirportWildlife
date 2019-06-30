@@ -7,45 +7,34 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AirportWildlife.Data;
 using AirportWildlife.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AirportWildlife.Controllers
 {
     public class HabitatsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public HabitatsController(ApplicationDbContext context)
+        public HabitatsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
+        private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
         // GET: Habitats
+        [Authorize]
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Habitats.Include(h => h.User);
+            var user = await GetCurrentUserAsync();
+            var applicationDbContext = _context.Habitats.Include(h => h.User).Where(h => h.UserId == user.Id);
             return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: Habitats/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var habitat = await _context.Habitats
-                .Include(h => h.User)
-                .FirstOrDefaultAsync(m => m.HabitatId == id);
-            if (habitat == null)
-            {
-                return NotFound();
-            }
-
-            return View(habitat);
-        }
-
         // GET: Habitats/Create
+        [Authorize]
         public IActionResult Create()
         {
             ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
@@ -57,11 +46,16 @@ namespace AirportWildlife.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("HabitatId,Name,UserId")] Habitat habitat)
+        public async Task<IActionResult> Create([Bind("HabitatId,Name")] Habitat habitat)
         {
+            var user = await GetCurrentUserAsync();
+
             if (ModelState.IsValid)
             {
+                habitat.User = user;
+                habitat.UserId = user.Id;
                 _context.Add(habitat);
+
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -70,6 +64,7 @@ namespace AirportWildlife.Controllers
         }
 
         // GET: Habitats/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -123,6 +118,7 @@ namespace AirportWildlife.Controllers
         }
 
         // GET: Habitats/Delete/5
+        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
